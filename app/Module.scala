@@ -2,7 +2,7 @@ import com.google.inject.AbstractModule
 
 import java.time.Clock
 
-import services.{ApplicationTimer}
+import services.{ApplicationTimer, AtomicCounter, Counter}
 import services.IProductService
 import services.ProductService
 import services.ReviewService
