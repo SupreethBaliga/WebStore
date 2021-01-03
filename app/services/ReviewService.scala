@@ -49,8 +49,7 @@ class ReviewService extends IReviewService{
 
   private def validateId(id:Long):Unit = {
     val entry = inMemoryDB.get(id)
-    If (entry==null) throw new RuntimeException("Could not find
-      Review: " + id)
+    if (entry==null) throw new RuntimeException("Could not find Review: " + id)
   }
 
 }

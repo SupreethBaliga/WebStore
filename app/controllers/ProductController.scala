@@ -1,14 +1,28 @@
 package controllers
 
+import javax.inject._
+import play.api._
+import play.api.mvc._
+import play.api.data.Form
+import play.api.data.Forms._
+import play.api.data._
+import models.Product
+import play.api.i18n.Messages
+import play.api.i18n.I18nSupport
+import play.api.i18n.MessagesApi
+import services.IProductService
+import play.Application
+
+
 @Singleton
 class ProductController @Inject() (val messagesApi:MessagesApi,val service:IProductService) extends Controller with I18nSupport {
 
   val productForm: Form[Product] = Form(
-  mapping(
-    "id" -> optional(longNumber),
-    "name" -> nonEmptyText,
-    "details" -> text,
-    "price" -> bigDecimal
+    mapping(
+      "id" -> optional(longNumber),
+      "name" -> nonEmptyText,
+      "details" -> text,
+      "price" -> bigDecimal
   )(models.Product.apply)(models.Product.unapply))
 
   def index = Action { implicit request =>
@@ -49,16 +63,18 @@ class ProductController @Inject() (val messagesApi:MessagesApi,val service:IProd
           form)).flashing("error" -> "Fix the errors!")
       },
       product => {
-        service.update(id,product)
+        service.update(id, product)
         Redirect(routes.ProductController.index).
           flashing("success" -> Messages("success.update",
             product.name))
       })
-    def remove(id: Long)= Action {
-      service.findById(id).map { product =>
-        service.remove(id)
-        Redirect(routes.ProductController.index).flashing("success" ->
-          Messages("success.delete", product.name))
-      }.getOrElse(NotFound)
+  }
+
+  def remove(id: Long)= Action {
+    service.findById(id).map { product =>
+      service.remove(id)
+      Redirect(routes.ProductController.index).flashing("success" ->
+        Messages("success.delete", product.name))
+    }.getOrElse(NotFound)
   }
 }

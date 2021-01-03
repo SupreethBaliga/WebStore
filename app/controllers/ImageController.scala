@@ -1,5 +1,23 @@
 package controllers
 
+import javax.inject.Inject
+import javax.inject.Singleton
+import models.Image
+import play.api.Logger
+import play.api.data.Form
+import play.api.data.Forms.default
+import play.api.data.Forms.longNumber
+import play.api.data.Forms.mapping
+import play.api.data.Forms.optional
+import play.api.data.Forms.text
+import play.api.i18n.I18nSupport
+import play.api.i18n.Messages
+import play.api.i18n.MessagesApi
+import play.api.mvc.Action
+import play.api.mvc.Controller
+import services.IImageService
+import services.IProductService
+
 @Singleton
 class ImageController @Inject()(val messagesApi:MessagesApi, val productService:IProductService, val service:IImageService)
   extends Controller with I18nSupport {
@@ -8,8 +26,7 @@ class ImageController @Inject()(val messagesApi:MessagesApi, val productService:
     mapping(
       "id" -> optional(longNumber),
       "productId" -> optional(longNumber),
-      "url" -> text
-    )(models.Image.apply)(models.Image.unapply))
+      "url" -> text)(models.Image.apply)(models.Image.unapply))
 
 
   def index = Action { implicit request =>
@@ -39,13 +56,13 @@ class ImageController @Inject()(val messagesApi:MessagesApi, val productService:
           productService.findAllProducts))
       },
       image => {
-        If (image.productId==null ||
+        if (image.productId==null ||
           image.productId.getOrElse(0)==0) {
           Redirect(routes.ImageController.blank).
             flashing("error" -> "Product ID Cannot be Null!")
-        }else {
-          if (image.url==null || "".equals(image.url)) image.url
-            = "/assets/images/default_product.png"
+        }
+        else {
+          if (image.url==null || "".equals(image.url)) image.url= "/assets/images/default_product.png"
           val id = service.insert(image)
           Redirect(routes.ImageController.index).
             flashing("success" -> Messages("success.insert", id))
@@ -62,9 +79,7 @@ class ImageController @Inject()(val messagesApi:MessagesApi, val productService:
       },
       image => {
         service.update(id,image)
-        Redirect(routes.ImageController.index).
-          flashing("success" -> Messages("success.update",
-            image.id))
+        Redirect(routes.ImageController.index).flashing("success" -> Messages("success.update",image.id))
       })
   }
 

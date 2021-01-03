@@ -1,7 +1,5 @@
 import com.google.inject.AbstractModule
-
 import java.time.Clock
-
 import services.{ApplicationTimer, AtomicCounter, Counter}
 import services.IProductService
 import services.ProductService
@@ -22,7 +20,7 @@ import services.IImageService
  */
 class Module extends AbstractModule {
 
-  override def configure(): Any = {
+  override def configure()= {
     // Use the system clock as the default implementation of Clock
     bind(classOf[Clock]).toInstance(Clock.systemDefaultZone)
 
@@ -36,6 +34,7 @@ class Module extends AbstractModule {
     bind(classOf[IProductService]).to(classOf[ProductService]).asEagerSingleton()
     bind(classOf[IReviewService]).to(classOf[ReviewService]).asEagerSingleton()
     bind(classOf[IImageService]).to(classOf[ImageService]).asEagerSingleton()
+
   }
 
 }

@@ -1,4 +1,19 @@
 package controllers
+import javax.inject._
+import play.api._
+import play.api.mvc._
+import play.api.data.Form
+import play.api.data.Forms._
+import play.api.data._
+import play.api.i18n.Messages
+import play.api.i18n.I18nSupport
+import play.api.i18n.MessagesApi
+import services.IProductService
+import play.Application
+import services.IReviewService
+import models.Review
+
+
 
 @Singleton
 class ReviewController @Inject()(val messagesApi:MessagesApi, val productService:IProductService, val service:IReviewService)
@@ -49,8 +64,7 @@ class ReviewController @Inject()(val messagesApi:MessagesApi, val productService
             review.productId.getOrElse(0)==0) throw new
               IllegalArgumentException("Product Id Cannot Be Null")
           val id = service.insert(review)
-          Redirect(routes.ReviewController.index).flashing("success" -
-            > Messages("success.insert", id))
+          Redirect(routes.ReviewController.index).flashing("success" -> Messages("success.insert", id))
         }
       })
   }
@@ -65,16 +79,14 @@ class ReviewController @Inject()(val messagesApi:MessagesApi, val productService
       },
       review => {
         service.update(id,review)
-        Redirect(routes.ReviewController.index).flashing("success" -
-          >Messages("success.update", review.productId))
+        Redirect(routes.ReviewController.index).flashing("success" ->Messages("success.update", review.productId))
       })
   }
 
   def remove(id: Long)= Action {
     service.findById(id).map { review =>
       service.remove(id)
-      Redirect(routes.ReviewController.index).flashing("success" -
-        >Messages("success.delete", review.productId))
+      Redirect(routes.ReviewController.index).flashing("success" ->Messages("success.delete", review.productId))
     }.getOrElse(NotFound)
   }
 

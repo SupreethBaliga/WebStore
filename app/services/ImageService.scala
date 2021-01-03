@@ -16,7 +16,7 @@ trait IImageService extends BaseService[Image]{
 class ImageService extends IImageService{
 
   def insert(image:Image):Long = {
-    val id = idCounter.incrementAndGet();
+    val id = idCounter.incrementAndGet()
     image.id = Some(id)
     inMemoryDB.put(id, image)
     id
@@ -47,8 +47,7 @@ class ImageService extends IImageService{
 
   private def validateId(id:Long):Unit = {
     val entry = inMemoryDB.get(id)
-    If (entry==null) throw new RuntimeException("Could not find
-      Image: " + id)
+    if (entry==null) throw new RuntimeException("Could not find Image: " + id)
   }
 
 }
