@@ -1,4 +1,4 @@
-name := """ReactiveWebStore"""
+name := """WebStore"""
 
 version := "1.0-SNAPSHOT"
 
