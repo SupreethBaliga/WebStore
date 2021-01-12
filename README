@@ -1,49 +1,19 @@
-This is your new Play application
-=================================
+# WebStore
 
-This file will be packaged with your application when using `activator dist`.
+## About
+A simple CRUD Application which manages products, their reviews and images. Built in ```scala``` using the ```Play``` framework along with front-end integration with ```twirl``` templating engine.
 
-There are several demonstration files available in this template.
-
-Controllers
-===========
-
-- HomeController.scala:
-
-  Shows how to handle simple HTTP requests.
-
-- AsyncController.scala:
-
-  Shows how to do asynchronous programming when handling a request.
-
-- CountController.scala:
-
-  Shows how to inject a component into a controller and use the component when
-  handling requests.
-
-Components
-==========
-
-- Module.scala:
-
-  Shows how to use Guice to bind all the components needed by your application.
-
-- Counter.scala:
-
-  An example of a component that contains state, in this case a simple counter.
-
-- ApplicationTimer.scala:
-
-  An example of a component that starts when the application starts and stops
-  when the application stops.
-
-Filters
-=======
-
-- Filters.scala:
-
-  Creates the list of HTTP filters used by your application.
-
-- ExampleFilter.scala
-
-  A simple filter that adds a header to every response.
+## How to Run
+- The app requires ```sbt``` (for experienced users) or ```activator``` (for beginners) to be preinstalled before running. (Relevant links for installation: [activator](https://www.playframework.com/documentation/2.3.0/Installing) and [sbt](https://www.scala-sbt.org/1.x/docs/Installing-sbt-on-Linux.html)
+- Running Using **Activator**:
+  - Navigate to the project directory.
+  - ``` $ activator compile```
+  - ``` $ activator run ```
+- Running using **sbt**:
+  - Navigate to the project directory.
+  - Run the sbt shell by typing ```$ sbt```.
+  - Inside the shell:
+    - ```$ compile```
+    - ```$ run```
+   
+  **Note:** The only difference between ```activator``` and ```sbt``` is that activator gives more enhanced error messages as compared to sbt. However, the debugging granularity is better when using sbt.
